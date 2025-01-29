@@ -2,7 +2,7 @@
 
 первый опыт с опкодом и асм поэтому могут быть баги
 
-Credits
+Credits:
 1WantToFreak
 Denger(shaoriy)
 m1rch
