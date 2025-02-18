@@ -5,10 +5,10 @@
 Credits:
 //
 1WantToFreak,
-Denger(shaoriy),
+Denger,
 m1rch,
 3elehyy,
-notkek(помог найти багы)
+notkek
 \\\
 
 
