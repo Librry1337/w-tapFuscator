@@ -9,7 +9,7 @@ public class xorbrute {
         System.out.print("Введите зашифрованную строку: ");
         String encryptedText = scanner.nextLine();
 
-        bruteForceDecrypt(encryptedText);
+        brutter(encryptedText);
     }
 
     private static String decrypt(String string, int key) {
@@ -20,7 +20,7 @@ public class xorbrute {
         return stringBuilder.toString();
     }
 
-    private static void bruteForceDecrypt(String encryptedText) {
+    private static void brutter(String encryptedText) {
         Pattern validTextPattern = Pattern.compile("^[0-9a-zA-Zа-яА-Я ]+$");
 
         for (int key = 0; key < 900000; key++) {
