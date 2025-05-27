@@ -10,7 +10,10 @@ import java.util.Random;
 // helped by shaoriy
 public class CrasherRecaf extends Transformer {
 
-    private static final int VIRTUAL_CALL_COUNT = 9900;  // минимально будет 3000
+    // минимально будет 3000
+    // minimum will be 3000
+    private static final int VIRTUAL_CALL_COUNT = 9900;
+
     private static final Random random = new Random();
 
     public CrasherRecaf(Obfuscator obf) {

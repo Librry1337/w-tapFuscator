@@ -42,7 +42,8 @@ public class BadPopTransformer extends Transformer {
 	}
 
 	public static String getMassive() {
-		StringBuffer sb = new StringBuffer();
+		// XDDDDD
+		StringBuilder sb = new StringBuilder();
 		while (sb.length() < 65536 - 1) {
 			sb.append(" ");
 		}

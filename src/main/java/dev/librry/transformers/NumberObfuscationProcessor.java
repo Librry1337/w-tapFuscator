@@ -17,8 +17,10 @@ public class NumberObfuscationProcessor extends Transformer {
     private static boolean lenghtMode = true;
     private static boolean xorMode = true;
     private static boolean simpleMathMode = true;
-    private static NumberObfuscationProcessor INSTANCE;  // Поменяли на статическую переменную
+    // Поменяли на статическую переменную
+    // Changed to a static variable
     private EnabledValue enabled = new EnabledValue(PROCESSOR_NAME, DeprecationLevel.GOOD, true);
+    private static NumberObfuscationProcessor INSTANCE;
     private BooleanValue extractToArray = new BooleanValue(PROCESSOR_NAME, "Extract to Array", DeprecationLevel.GOOD, true);
     private BooleanValue obfuscateZero = new BooleanValue(PROCESSOR_NAME, "Obfuscate Zero", DeprecationLevel.GOOD, true);
     private BooleanValue shift = new BooleanValue(PROCESSOR_NAME, "Shift", DeprecationLevel.OK, false);

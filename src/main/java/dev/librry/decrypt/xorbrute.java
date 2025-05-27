@@ -7,6 +7,7 @@ public class xorbrute {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите зашифрованную строку: ");
+        System.out.println("Enter the encrypted string: ");
         String encryptedText = scanner.nextLine();
 
         brutter(encryptedText);
