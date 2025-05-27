@@ -68,6 +68,7 @@
             random = new Random();
 
             //  ПРЕЖДЕ ЧЕМ ТЫ НАСРЕШ ЧЕМ НИБУТЬ ---> ПОМНИ ОН НАСРЕТ ТЕБЕ В ОТВЕТ
+            // BEFORE YOU SHIT ANYTHING ---> REMEMBER HE WILL SHIT BACK
 
 
 

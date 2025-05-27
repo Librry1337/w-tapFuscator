@@ -6,6 +6,7 @@ import dev.librry.Obfuscator;
 
 
 // не советую использовать т.к jar файл становится 3 хромосомным
+// I do not recommend using it because the jar file becomes 3 chromosomes
 public class VarDuplicatorHttpTransformer extends Transformer {
 
 	public VarDuplicatorHttpTransformer(Obfuscator Obf) {

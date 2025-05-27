@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
 
 
 // хуйня?
+// bullshit?
 public class RenamerTransformer extends Transformer {
 
     protected final HashMap<String, String> map = new HashMap<>();

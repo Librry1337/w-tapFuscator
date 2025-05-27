@@ -21,6 +21,7 @@ public class ShuffleTransformer extends Transformer {
     @Override
     public void visit(ClassNode classNode) {
         // Запутывание имен наша лучшая разработка
+        // Name obfuscation is our best development
         for (int i = 0; i < classNode.fields.size() - 1; i++) {
             for (int j = i + 1; j < classNode.fields.size(); j++) {
                 List<FieldNode> swapped = RandomUtils.swap(random, classNode.fields.get(i), classNode.fields.get(j));
