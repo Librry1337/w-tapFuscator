@@ -17,7 +17,7 @@ public class NumberObfuscationProcessor extends Transformer {
     private static boolean lenghtMode = true;
     private static boolean xorMode = true;
     private static boolean simpleMathMode = true;
-    private static NumberObfuscationProcessor INSTANCE;  // Поменяли на статическую переменную
+    private static NumberObfuscationProcessor INSTANCE;
     private EnabledValue enabled = new EnabledValue(PROCESSOR_NAME, DeprecationLevel.GOOD, true);
     private BooleanValue extractToArray = new BooleanValue(PROCESSOR_NAME, "Extract to Array", DeprecationLevel.GOOD, true);
     private BooleanValue obfuscateZero = new BooleanValue(PROCESSOR_NAME, "Obfuscate Zero", DeprecationLevel.GOOD, true);
@@ -57,83 +57,8 @@ public class NumberObfuscationProcessor extends Transformer {
 
     public static InsnList getInstructions(int value) {
         InsnList methodInstructions = new InsnList();
-
-        if (value == 0 && INSTANCE.obfuscateZero.getObject()) {
-            int randomInt = random.nextInt(100);
-            methodInstructions.add(getInstructions(randomInt));
-            methodInstructions.add(getInstructions(randomInt));
-            methodInstructions.add(new InsnNode(Opcodes.ICONST_M1));
-            methodInstructions.add(new InsnNode(Opcodes.IXOR));
-            methodInstructions.add(new InsnNode(Opcodes.IAND));
-
-            return methodInstructions;
-        }
-        int[] shiftOutput = splitToLShift(value);
-
-        if (shiftOutput[1] > 0 && INSTANCE.shift.getObject()) {
-            methodInstructions.add(getInstructions(shiftOutput[0]));
-            methodInstructions.add(getInstructions(shiftOutput[1]));
-            methodInstructions.add(new InsnNode(Opcodes.ISHL));
-            return methodInstructions;
-        }
-
-        int method;
-
-        if (lenghtMode && (Math.abs(value) < 4 || (!xorMode && !simpleMathMode)))
-            method = 0;
-        else if (xorMode && (Math.abs(value) < Byte.MAX_VALUE || (!lenghtMode && !simpleMathMode)))
-            method = 1;
-        else {
-            if (!INSTANCE.and.getObject() && Math.abs(value) > 0xFF) {
-                method = 3;
-            } else {
-                method = 2;
-            }
-
-        }
-
-        final boolean negative = value < 0;
-
-        if (negative)
-            value = -value;
-
-        switch (method) {
-            case 0:
-                methodInstructions.add(new LdcInsnNode(NameUtils.generateSpaceString(value)));
-                methodInstructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I", false));
-                break;
-            case 1:
-                int A = value;
-                int B = random.nextInt(200);
-                A = A ^ B;
-                methodInstructions.add(NodeUtils.generateIntPush(A));
-                methodInstructions.add(NodeUtils.generateIntPush(B));
-                methodInstructions.add(new InsnNode(Opcodes.IXOR));
-                break;
-            case 2:
-                final int ADD_1 = random.nextInt(value);
-                final int ADD_2 = random.nextInt(value);
-                final int ADD_3 = random.nextInt(value);
-                final int SUB = (ADD_1 + ADD_2 + ADD_3) - value;
-
-                methodInstructions.add(NodeUtils.generateIntPush(ADD_1));
-                methodInstructions.add(NodeUtils.generateIntPush(ADD_2));
-                methodInstructions.add(new InsnNode(Opcodes.IADD));
-                methodInstructions.add(NodeUtils.generateIntPush(SUB));
-                methodInstructions.add(new InsnNode(Opcodes.ISUB));
-                methodInstructions.add(NodeUtils.generateIntPush(ADD_3));
-                methodInstructions.add(new InsnNode(Opcodes.IADD));
-                break;
-            case 3:
-                int[] and = splitToAnd(value);
-                methodInstructions.add(NodeUtils.generateIntPush(and[0]));
-                methodInstructions.add(NodeUtils.generateIntPush(and[1]));
-                methodInstructions.add(new InsnNode(Opcodes.IAND));
-                break;
-        }
-        if (negative)
-            methodInstructions.add(new InsnNode(Opcodes.INEG));
-
+        methodInstructions.add(new VarInsnNode(Opcodes.ILOAD, 0));
+        methodInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "dev/librry/transformers/FlowObfuscatorTransformer", "getSharedObfValue", "(I)I", false));
         return methodInstructions;
     }
 
@@ -196,7 +121,7 @@ public class NumberObfuscationProcessor extends Transformer {
             }
         }
         if (i != 0) {
-            node.fields.add(new FieldNode(((node.access & Opcodes.ACC_INTERFACE) != 0 ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE) | Opcodes.ACC_FINAL | Opcodes.ACC_STATIC, fieldName, "[I", null, null));
+            node.fields.add(new FieldNode(((node.access & Opcodes.ACC_INTERFACE) != 0 ? Opcodes.ACC_PUBLIC : Opcodes.ACC_PRIVATE) | Opcodes.ACC_STATIC, fieldName, "[I", null, null));
             MethodNode clInit = NodeUtils.getMethod(node, "<clinit>");
             if (clInit == null) {
                 clInit = new MethodNode(Opcodes.ACC_STATIC, "<clinit>", "()V", null, new String[0]);

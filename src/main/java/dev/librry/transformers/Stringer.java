@@ -1,4 +1,4 @@
-package dev.librry.utils;
+package dev.librry.transformers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import dev.librry.Obfuscator;
+import dev.librry.utils.AccessHelper;
+import dev.librry.utils.OpUtils;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -19,8 +22,12 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 
+//ЕБАТЬ ТЕХНОЛОГИИ САМ В АХУЕ!!!
+public class Stringer extends Transformer {
 
-public class Stringer {
+	public Stringer(Obfuscator obf) {
+		super(obf);
+	}
 
 	public static void stringEncrypt(ClassNode cn) {
 		Map<String, Integer> randInts = new HashMap<String, Integer>();
@@ -73,11 +80,9 @@ public class Stringer {
 				}
 				AbstractInsnNode x = ain.getNext();
 
-				// If the decrypt isn't static it needs the 'this' instance.
 				if (!AccessHelper.isStatic(decrypt.access)) {
 					mn.instructions.insertBefore(x, new VarInsnNode(Opcodes.ALOAD, 0));
 				}
-				// Create the char array
 				mn.instructions.insertBefore(x, OpUtils.toInt(s.length()));
 				mn.instructions.insertBefore(x, new IntInsnNode(Opcodes.NEWARRAY, 5));
 				mn.instructions.insertBefore(x, new InsnNode(Opcodes.DUP));
@@ -93,17 +98,13 @@ public class Stringer {
 					}
 				}
 
-				// Add the key string
 				mn.instructions.insertBefore(x, new LdcInsnNode(key));
-				// Get the key int
 				mn.instructions.insertBefore(x, OpUtils.toInt(randInts.get(s)));
-				// Invoke decrypt
 				if (AccessHelper.isStatic(decrypt.access)) {
 					mn.instructions.insertBefore(x, new MethodInsnNode(Opcodes.INVOKESTATIC, cn.name, decrypt.name, decrypt.desc, false));
 				} else {
 					mn.instructions.insertBefore(x, new MethodInsnNode(Opcodes.INVOKEVIRTUAL, cn.name, decrypt.name, decrypt.desc, false));
 				}
-				// Remove the ldc
 				mn.instructions.remove(ldc);
 			}
 		}
@@ -251,6 +252,11 @@ public class Stringer {
 			s = s + ((char) (rangeMin +( Math.random() * (rangeMax - rangeMin))));
 		}
 		return s;
+	}
+
+	@Override
+	public void visit(ClassNode classNode) {
+		stringEncrypt(classNode);
 	}
 
 }

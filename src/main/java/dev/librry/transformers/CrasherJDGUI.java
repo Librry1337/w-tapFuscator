@@ -38,7 +38,7 @@ public class CrasherJDGUI extends Transformer {
     @Override
     public void visit(ClassNode classNode) {
         for (int i = 0; i < 1500; i++) {
-          classNode.fields.add(new FieldNode(Modifier.PUBLIC | Modifier.FINAL, generateName(1600), "I","", 1));
+          classNode.fields.add(new FieldNode(Modifier.PUBLIC | Modifier.FINAL, generateName(400), "I","", 1));
           //classNode.methods.add(new MethodNode(Modifier.PUBLIC | Modifier.FINAL, generateName(5), "()V","", null));
         }
         Collections.shuffle(classNode.fields);
