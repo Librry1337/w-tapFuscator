@@ -43,7 +43,7 @@ The obfuscator includes the following transformers:
 7. **TrashCodeTransformer**: Injects meaningless code
 8. **ConstantTransformer**: Obfuscates constant values
 9. **ASCIIArtTransformer**: Adds ASCII art comments
-10. **ObfuscatorNewTech**: Advanced string encryption using XOR
+10. **ObfuscatorNewTech**: Advanced string encryption using ConstantDynamic 
 
 ## Building
 
